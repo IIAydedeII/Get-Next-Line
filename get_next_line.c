@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:07:24 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 16:33:58 by adede            ###   ########.fr       */
+/*   Updated: 2026/03/31 16:49:27 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,22 @@ char	*read_and_stash(int fd, char *stash)
 
 char	*extract_line(char *stash)
 {
-	int		i;
-	char	*line;
+	char		*line;
+	char		*newline;
+	size_t		len;
 
 	if (!stash || !stash[0])
 		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (stash[i] == '\n')
-		i++;
-	line = malloc(i + 1);
+	newline = ft_strchr(stash, '\n');
+	if (newline)
+		len = newline - stash + 1;
+	else
+		len = ft_strlen(stash);
+	line = malloc(len + 1);
 	if (!line)
 		return (NULL);
-	ft_memcpy(line, stash, i);
-	line[i] = '\0';
+	ft_memcpy(line, stash, len);
+	line[len] = '\0';
 	return (line);
 }
 
