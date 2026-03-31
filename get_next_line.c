@@ -6,14 +6,98 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:07:24 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 09:10:41 by adede            ###   ########.fr       */
+/*   Updated: 2026/03/31 11:26:35 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "unistd.h"
+
+char	*read_and_stash(int fd, char *stash)
+{
+	char	*buffer;
+	char	*tmp;
+	int		bytes;
+
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	bytes = 1;
+	while ((!stash || !ft_strchr(stash, '\n')) && bytes > 0)
+	{
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes == -1)
+		{
+			free(buffer);
+			free(stash);
+			return (NULL);
+		}
+		buffer[bytes] = '\0';
+		tmp = stash;
+		if (!stash)
+			stash = ft_substr(buffer, 0, ft_strlen(buffer));
+		else
+			stash = ft_strjoin(tmp, buffer);
+		free(tmp);
+	}
+	free(buffer);
+	return (stash);
+}
+
+char	*extract_line(char *stash)
+{
+	int		i;
+	char	*line;
+
+	if (!stash || !stash[0])
+		return (NULL);
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	if (stash[i] == '\n')
+		i++;
+	line = ft_substr(stash, 0, i);
+	return (line);
+}
+
+char	*clean_stash(char *stash)
+{
+	char	*new_stash;
+	int		i;
+	int		j;
+
+	if (!stash)
+		return (NULL);
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	if (!stash[i])
+	{
+		free(stash);
+		return (NULL);
+	}
+	i++;
+	new_stash = malloc(ft_strlen(stash) - i + 1);
+	if (!new_stash)
+		return (NULL);
+	j = 0;
+	while (stash[i])
+		new_stash[j++] = stash[i++];
+	new_stash[j] = '\0';
+	free(stash);
+	return (new_stash);
+}
 
 char	*get_next_line(int fd)
 {
-	return (NULL);
+	static char	*stash;
+	char		*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	stash = read_and_stash(fd, stash);
+	if (!stash)
+		return (NULL);
+	line = extract_line(stash);
+	stash = clean_stash(stash);
+	return (line);
 }
