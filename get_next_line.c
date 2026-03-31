@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:07:24 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 11:41:45 by adede            ###   ########.fr       */
+/*   Updated: 2026/03/31 12:59:10 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*read_and_stash(int fd, char *stash)
 		buffer[bytes] = '\0';
 		tmp = stash;
 		if (!stash)
-			stash = ft_substr(buffer, 0, ft_strlen(buffer));
+			stash = ft_strdup(buffer);
 		else
 			stash = ft_strjoin(tmp, buffer);
 		free(tmp);
@@ -58,31 +58,25 @@ char	*extract_line(char *stash)
 		i++;
 	if (stash[i] == '\n')
 		i++;
-	line = ft_substr(stash, 0, i);
+	line = malloc(i + 1);
+	if (!line)
+		return (NULL);
+	ft_memcpy(line, stash, i);
+	line[i] = '\0';
 	return (line);
 }
 
 char	*clean_stash(char *stash)
 {
 	char	*new_stash;
-	int		i;
-	int		j;
+	char	*newline;
 
 	if (!stash)
 		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (!stash[i])
+	newline = ft_strchr(stash, '\n');
+	if (!newline)
 		return (cleanup(stash, NULL));
-	i++;
-	new_stash = malloc(ft_strlen(stash) - i + 1);
-	if (!new_stash)
-		return (NULL);
-	j = 0;
-	while (stash[i])
-		new_stash[j++] = stash[i++];
-	new_stash[j] = '\0';
+	new_stash = ft_strdup(newline + 1);
 	free(stash);
 	return (new_stash);
 }

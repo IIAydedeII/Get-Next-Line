@@ -6,11 +6,30 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:09:39 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 11:29:18 by adede            ###   ########.fr       */
+/*   Updated: 2026/03/31 12:48:36 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned char	*dest_casted;
+	unsigned char	*src_casted;
+	size_t			i;
+
+	if (dest == src)
+		return (dest);
+	dest_casted = (unsigned char *)dest;
+	src_casted = (unsigned char *)src;
+	i = 0;
+	while (i < n)
+	{
+		dest_casted[i] = src_casted[i];
+		i++;
+	}
+	return (dest);
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -54,28 +73,15 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (start);
 }
 
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+char	*ft_strdup(const char *s)
 {
-	char	*substr;
-	size_t	slen;
-	size_t	i;
+	char	*dup;
+	size_t	buff_len;
 
-	if (!s)
+	buff_len = ft_strlen(s) + 1;
+	dup = malloc(buff_len * sizeof(char));
+	if (!dup)
 		return (NULL);
-	slen = ft_strlen(s);
-	if (start >= slen)
-		len = 0;
-	if (len > slen - start)
-		len = slen - start;
-	substr = malloc((len + 1) * sizeof(char));
-	if (!substr)
-		return (NULL);
-	i = 0;
-	while (i < len && s[start + i])
-	{
-		substr[i] = s[start + i];
-		i++;
-	}
-	substr[i] = '\0';
-	return (substr);
+	ft_memcpy(dup, s, buff_len);
+	return (dup);
 }
