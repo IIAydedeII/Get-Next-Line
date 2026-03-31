@@ -6,11 +6,18 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:07:24 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 11:26:35 by adede            ###   ########.fr       */
+/*   Updated: 2026/03/31 11:41:45 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static char	*cleanup(char *stash, char *buffer)
+{
+	free(stash);
+	free(buffer);
+	return (NULL);
+}
 
 char	*read_and_stash(int fd, char *stash)
 {
@@ -26,11 +33,7 @@ char	*read_and_stash(int fd, char *stash)
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
-		{
-			free(buffer);
-			free(stash);
-			return (NULL);
-		}
+			return (cleanup(stash, buffer));
 		buffer[bytes] = '\0';
 		tmp = stash;
 		if (!stash)
@@ -71,10 +74,7 @@ char	*clean_stash(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
-	{
-		free(stash);
-		return (NULL);
-	}
+		return (cleanup(stash, NULL));
 	i++;
 	new_stash = malloc(ft_strlen(stash) - i + 1);
 	if (!new_stash)
