@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:07:24 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 14:02:24 by adede            ###   ########.fr       */
+/*   Updated: 2026/03/31 16:29:35 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*read_and_stash(int fd, char *stash)
 		else
 			stash = ft_strjoin(tmp, buffer);
 		free(tmp);
+		if (!stash)
+			return (cleanup(NULL, buffer));
 	}
 	free(buffer);
 	return (stash);
