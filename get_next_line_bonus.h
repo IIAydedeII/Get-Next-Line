@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:08:22 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 14:02:16 by adede            ###   ########.fr       */
+/*   Updated: 2026/03/31 14:18:29 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 64
+# endif
+
+# ifndef FD_MAX
+#  define FD_MAX 1024
 # endif
 
 char	*get_next_line(int fd);

@@ -85,15 +85,15 @@ char	*clean_stash(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stashes[FD_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= FD_MAX)
 		return (NULL);
-	stash = read_and_stash(fd, stash);
-	if (!stash)
+	stashes[fd] = read_and_stash(fd, stashes[fd]);
+	if (!stashes[fd])
 		return (NULL);
-	line = extract_line(stash);
-	stash = clean_stash(stash);
+	line = extract_line(stashes[fd]);
+	stashes[fd] = clean_stash(stashes[fd]);
 	return (line);
 }
