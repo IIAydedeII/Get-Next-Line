@@ -6,7 +6,7 @@
 /*   By: adede <adede@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 09:07:24 by adede             #+#    #+#             */
-/*   Updated: 2026/03/31 16:56:45 by adede            ###   ########.fr       */
+/*   Updated: 2026/04/05 18:06:42 by adede            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*cleanup(char *stash, char *buffer)
 	return (NULL);
 }
 
-char	*read_and_stash(int fd, char *stash)
+static char	*read_and_stash(int fd, char *stash)
 {
 	char	*buffer;
 	char	*tmp;
@@ -48,7 +48,7 @@ char	*read_and_stash(int fd, char *stash)
 	return (stash);
 }
 
-char	*extract_line(char *stash)
+static char	*extract_line(char *stash)
 {
 	char		*line;
 	char		*newline;
@@ -69,7 +69,7 @@ char	*extract_line(char *stash)
 	return (line);
 }
 
-char	*remove_extracted_line(char *stash)
+static char	*remove_extracted_line(char *stash)
 {
 	char	*new_stash;
 	char	*newline;
