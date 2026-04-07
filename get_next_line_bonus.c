@@ -84,7 +84,7 @@ static char	*remove_extracted_line(char *stash)
 	return (new_stash);
 }
 
-static char	*get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	static char	*stashes[FD_MAX];
 	char		*line;
